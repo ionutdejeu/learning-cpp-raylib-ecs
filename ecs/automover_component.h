@@ -33,9 +33,26 @@
 
 #include "raylib.h"
 
+
+#ifndef AUTOMOVERCOMPONENT_H
+#define AUTOMOVERCOMPONENT_H
+
+#if defined(_WIN32)
+    // Microsoft attibutes to tell compiler that symbols are imported/exported from a .dll
+    #if defined(BUILD_LIBTYPE_SHARED)
+        #define RLAPI __declspec(dllexport)     // We are building raylib as a Win32 shared library (.dll)
+    #elif defined(USE_LIBTYPE_SHARED)
+        #define RLAPI __declspec(dllimport)     // We are using raylib as a Win32 shared library (.dll)
+    #else
+        #define RLAPI   // We are building or using raylib as a static library
+    #endif
+#else
+#define RLAPI       // We are building or using raylib as a static library (or Linux shared library)
+#endif
+
 // a component that uses the update event
 
-class AutoMoverComponent : public Component
+RLAPI class AutoMoverComponent : public Component
 {
 public:
     Vector3 LinearSpeed = { 0 };
@@ -44,11 +61,11 @@ public:
     bool UseHeading = false;
 
 public:
-    DEFINE_COMPONENT(AutoMoverComponent);
+    RLAPI DEFINE_COMPONENT(AutoMoverComponent);
 
-    inline void OnCreate() override { NeedUpdate = true; }
+    RLAPI inline void OnCreate() override { NeedUpdate = true; }
 
-    inline void OnUpdate()
+    RLAPI inline void OnUpdate()
     {
         TransformComponent* transform = ComponentManager::MustGetComponent<TransformComponent>(this);
 
@@ -66,3 +83,5 @@ public:
         transform->MoveUp(LinearSpeed.z * delta);
     }
 };
+
+#endif

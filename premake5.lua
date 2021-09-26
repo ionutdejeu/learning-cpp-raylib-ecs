@@ -101,7 +101,7 @@ project "game"
 		["Header Files"] = { "**.h"},
 		["Source Files"] = {"**.c", "**.cpp"},
 	}
-	files {"%{wks.name}/**.c", "%{wks.name}/**.cpp", "%{wks.name}/**.h"}
+	files {"game/**.c", "game/**.cpp", "game/**.h"}
 
 	links {"raylib","ecs"}
 	
@@ -111,7 +111,7 @@ project "game"
 	filter "action:vs*"
 		defines{"_WINSOCK_DEPRECATED_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS", "_WIN32"}
 		dependson {"raylib","ecs"}
-		links {"winmm", "raylib.lib", "kernel32","ecs.lib"}
+		links {"winmm", "raylib.lib", "kernel32"}
 		libdirs {"bin/%{cfg.buildcfg}"}
 		
 	filter "action:gmake*"
