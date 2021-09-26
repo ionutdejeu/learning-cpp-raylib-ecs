@@ -88,7 +88,7 @@ project "ecs"
 	}
 	files {"ecs/**.c", "ecs/**.cpp", "ecs/**.h"}
 
-project "test"
+project "game"
 	kind "ConsoleApp"
 	location "build"
 	language "C++"
@@ -103,15 +103,15 @@ project "test"
 	}
 	files {"%{wks.name}/**.c", "%{wks.name}/**.cpp", "%{wks.name}/**.h"}
 
-	links {"raylib"}
+	links {"raylib","ecs"}
 	
-	includedirs { "%{wks.name}", "raylib/src" }
+	includedirs { "%{wks.name}", "raylib/src", "ecs"}
 	defines{"PLATFORM_DESKTOP", "GRAPHICS_API_OPENGL_33"}
 	
 	filter "action:vs*"
 		defines{"_WINSOCK_DEPRECATED_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS", "_WIN32"}
-		dependson {"raylib"}
-		links {"winmm", "raylib.lib", "kernel32"}
+		dependson {"raylib","ecs"}
+		links {"winmm", "raylib.lib", "kernel32","ecs.lib"}
 		libdirs {"bin/%{cfg.buildcfg}"}
 		
 	filter "action:gmake*"
